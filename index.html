@@ -1,0 +1,65 @@
+<html>
+    <head>
+        <script type="text/javascript" src="contract.js"></script>
+    </head>
+    <body>
+        <div id="message"></div>
+        <div id="events"></div>
+        <button id="entergame" onclick="entergame()">Spin</button>
+        <script>
+            var web3;
+            var account;
+            var russianContract;
+            var russianRouleth;
+
+            window.addEventListener('load', function() {
+                if (typeof web3 !== 'undefined') {
+                    web3 = new Web3(web3.currentProvider);
+                    account = web3.eth.accounts[0];
+                    /*
+                    web3.eth.getBalance(account, function (error, result) {
+                        document.getElementById("message").innerHTML = web3.fromWei(result);
+                    });
+                    */
+                    russianContract = web3.eth.contract(contractABI);
+                    russianRouleth = russianContract.at('0x0d332ef9dfb8c6797719a6715ac0830d43bff50d');
+
+                    // get new players
+                    russianRouleth.getCurrentPlayers(function (error, result) {
+                        for (var i = 0; i < result.length; i++) {
+                            document.getElementById("events").innerHTML += "<br/>Player " + (i+1) + ": " + result[i];
+                        }
+                    });
+
+                    // check for new players
+                    var NewPlayerEvent = russianRouleth.NewPlayer({}, {
+                        fromBlock: 'latest',
+                        toBlock: 'latest'
+                    });
+                    NewPlayerEvent.watch(function(error, result) {
+                        document.getElementById("events").innerHTML += "<br/>Someone joined " + result.args.player;
+                    })
+
+                } else {
+                    document.getElementById("message").innerHTML = "get metamask";
+                    document.getElementById("entergame").style.visibility = "hidden";
+                }
+            });
+
+            function entergame() {
+                russianRouleth.enterGame({
+                    gas:1000000,
+                    gasPrice: 10000000000,
+                    from: account,
+                    value: web3.toWei(0.01, 'ether')
+                }, function(error, result) {
+                    if (!error) {
+                        alert("YOU ENTERED THE GAME")
+                    } else {
+                        alert(error);
+                    }
+                });
+            }
+        </script>
+    </body>
+</html>
