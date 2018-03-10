@@ -13,7 +13,7 @@ class Rouleth
             this.initModelFromContract();
 
             setTimeout(function () {
-                self.render();
+                this.render();
             }, 1000);
 
             this.startNewPlayerWatcher();
