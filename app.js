@@ -10,11 +10,11 @@ class Rouleth
             this.players = {};
             this.deathCount = 0;
 
-
-
             this.initModelFromContract();
 
-            this.render();
+            setTimeout(function () {
+                self.render();
+            }, 1000);
 
             this.startNewPlayerWatcher();
             this.startNewPlayerAndGameFinishedWatcher();
