@@ -1,9 +1,9 @@
 // everything inside the event listener, yey!
 class Rouleth
 {
-    // w3;
-    // contract;
-    // myAccount;
+    // w3
+    // contract
+    // myAccount
 
     constructor() {
         if (typeof web3 !== 'undefined') {
@@ -11,8 +11,14 @@ class Rouleth
             this.contract = this.w3.eth.contract(contractABI).at(contractAddr);
             this.myAccount = this.w3.eth.accounts[0];
 
+            this.renderDeadPlayers();
             this.renderPlayers();
             this.newPlayerWatcher();
+            this.gameFinishedWatcher();
+            this.getCurrentBalance();
+
+
+
             Rouleth.log("Loaded");
         } else {
             // no web3
@@ -37,7 +43,8 @@ class Rouleth
             if (!error) {
                 Rouleth.log("YOU ENTERED THE GAME")
             } else {
-                Rouleth.log(error);
+                Rouleth.log("you can enter only once per round!");
+                //Rouleth.log(error);
             }
         });
     }
@@ -45,12 +52,21 @@ class Rouleth
     // Renders the players adding them into the seats
     renderPlayers() {
         let self = this;
-        this.contract.getNumberOfPlayers(function (error, nPlayers) {
-            self.contract.getCurrentPlayers(function (error, result) {
+        this.contract.nPlayers(function (error, nPlayers) {
+            Rouleth.log(nPlayers);
+            self.contract.getPlayers(function (error, result) {
                 for (let i = 0; i < nPlayers; i++) {
                     document.getElementById("player-" + i).innerHTML = "Player " + i + ": " + result[i];
                 }
             });
+        });
+    }
+
+    // Renders the dead players adding them into the seats
+    renderDeadPlayers() {
+        this.contract.deathCounter(function (error, deathCounter) {
+            Rouleth.log(deathCounter);
+
         });
     }
 
@@ -67,10 +83,31 @@ class Rouleth
         })
     }
 
+    // Check for end game
+    gameFinishedWatcher() {
+        let self = this;
+        let GameFinishedEvent = this.contract.GameFinished({}, {
+            fromBlock: 'latest',
+            toBlock: 'latest'
+        });
+        GameFinishedEvent.watch(function(error, result) {
+            var maxPlayers = result.args.players.length;
+            for (var i = 0; i < maxPlayers; i++) {
+                if (i == result.args.loser) {
+                    Rouleth.log(result.args.players[i] + " has died.");
+                } else {
+                    Rouleth.log(result.args.players[i] + " is still alive and got some prize from the dead.");
+                }
+            }
+            self.renderPlayers();
+        })
+    }
+
     // Show current balance in log
     getCurrentBalance() {
+        let self = this;
         this.w3.eth.getBalance(this.myAccount, function (error, result) {
-            Rouleth.log(this.w3.fromWei(result));
+            Rouleth.log(self.w3.fromWei(result));
         });
     }
 }
