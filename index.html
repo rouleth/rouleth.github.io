@@ -9,17 +9,20 @@
     <body>
         <div class="filter"></div>
         <div class="wrapper">
+            <div class="header">
+                <div class="deaths">Dead players: <span id="deathCounter">0</span></div>
+            </div>
             <h1>Russian Rouleth</h1>
             <h2>Do you have the balls?</h2>
-            <button id="play" onclick="rouleth.play()">Take a seat</button>
+            <button id="play" onclick="rouleth.takeASeat()">Take a seat</button>
             <div id="no-web3" style="display: none">First get metamask!</div>
             <div id="players">
-                <div id="player-0" class="player-seat"></div>
-                <div id="player-1" class="player-seat"></div>
-                <div id="player-2" class="player-seat"></div>
-                <div id="player-3" class="player-seat"></div>
-                <div id="player-4" class="player-seat"></div>
-                <div id="player-5" class="player-seat"></div>
+                <div id="player-0" class="player-seat">Empty</div>
+                <div id="player-1" class="player-seat">Empty</div>
+                <div id="player-2" class="player-seat">Empty</div>
+                <div id="player-3" class="player-seat">Empty</div>
+                <div id="player-4" class="player-seat">Empty</div>
+                <div id="player-5" class="player-seat">Empty</div>
             </div>
             <div id="log"></div>
         </div>

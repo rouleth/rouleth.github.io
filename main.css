@@ -23,7 +23,15 @@ body {
   padding: 40px 20px;
   width: 100%;
   height: 100%; }
+  .wrapper .header {
+    z-index: 2;
+    color: #fff;
+    font-size: 25px;
+    width: 100%; }
+    .wrapper .header .deaths {
+      float: left; }
   .wrapper h1 {
+    clear: both;
     font-size: 60px;
     color: #f0f0f0;
     margin-bottom: 5px; }

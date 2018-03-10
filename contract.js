@@ -1,4 +1,4 @@
-let contractAddr = '0xd95b1dbec167c6cf547d018ddecf41a4cb2e2f73';
+let contractAddr = '0xfa21e79ca2dfb3ab15469796069622903919159c';
 let contractABI = [
     {
         "constant": true,
@@ -115,8 +115,13 @@ let contractABI = [
         "inputs": [
             {
                 "indexed": false,
+                "name": "sender",
+                "type": "address"
+            },
+            {
+                "indexed": false,
                 "name": "players",
-                "type": "address[6]"
+                "type": "address[3]"
             },
             {
                 "indexed": false,
@@ -124,7 +129,7 @@ let contractABI = [
                 "type": "uint256"
             }
         ],
-        "name": "GameFinished",
+        "name": "NewPlayerAndGameFinished",
         "type": "event"
     },
     {
@@ -151,7 +156,7 @@ let contractABI = [
         "outputs": [
             {
                 "name": "",
-                "type": "address[6]"
+                "type": "address[3]"
             }
         ],
         "payable": false,
