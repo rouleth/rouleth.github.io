@@ -3,6 +3,7 @@ class Rouleth
 {
     constructor() {
         if (typeof web3 !== 'undefined') {
+            let self = this;
             this.w3 = new Web3(web3.currentProvider);
             this.contract = this.w3.eth.contract(contractABI).at(contractAddr);
             this.myAccount = this.w3.eth.accounts[0];
@@ -13,7 +14,7 @@ class Rouleth
             this.initModelFromContract();
 
             setTimeout(function () {
-                this.render();
+                self.render();
             }, 1000);
 
             this.startNewPlayerWatcher();
