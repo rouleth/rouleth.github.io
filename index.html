@@ -2,29 +2,25 @@
     <head>
         <title>Russian Rouleth - Feel the death on the Blockchain</title>
         <link href="https://fonts.googleapis.com/css?family=Cormorant+Garamond" rel="stylesheet">
-        <link rel="stylesheet" type="text/css" href="main.css">
-        <script type="text/javascript" src="contract.js"></script>
-        <script type="text/javascript" src="app.js"></script>
+        <link rel="stylesheet" type="text/css" href="assets/main.css">
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+        <script type="text/javascript" src="assets/contract.js"></script>
+        <script type="text/javascript" src="assets/app.js"></script>
     </head>
-    <body>
+    <body ng-app="Rouleth">
         <div class="filter"></div>
-        <div class="wrapper">
+        <div class="wrapper"ng-controller="mainControler">
             <div class="header">
-                <div class="deaths">Dead players: <span id="deathCounter">0</span></div>
+                <div class="deaths">Dead players: <span id="deathCounter">{{ rouleth.deathCounter }}</span></div>
+                <div class="balance">Balance: {{ balance }}</div>
             </div>
             <h1>Russian Rouleth</h1>
             <h2>Do you have the balls?</h2>
-            <button id="play" onclick="rouleth.takeASeat()">Take a seat</button>
             <div id="no-web3" style="display: none">First get metamask!</div>
             <div id="players">
-                <div id="player-0" class="player-seat">Empty</div>
-                <div id="player-1" class="player-seat">Empty</div>
-                <div id="player-2" class="player-seat">Empty</div>
-                <div id="player-3" class="player-seat">Empty</div>
-                <div id="player-4" class="player-seat">Empty</div>
-                <div id="player-5" class="player-seat">Empty</div>
+                <button id="play" ng-click="takeASeat()">Take a seat</button>
+                <div class="player-seat" ng-repeat="p in rouleth.players">{{ p }}</div>
             </div>
-            <div id="log"></div>
         </div>
     </body>
 </html>
